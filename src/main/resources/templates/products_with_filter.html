@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>Каталог товаров</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+<div class="container">
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Название товара</th>
+            <th>Цена</th>
+            <th>Действия</th>
+            <th>Удалить</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="product : ${products}">
+            <td th:text="${product.id}"/>
+            <td th:text="${product.title}"/>
+            <td th:text="${product.price}"/>
+            <td>
+                <a th:href="@{'/products/show/' + ${product.id}}" th:text="Просмотреть"/>
+            </td>
+            <td>
+                <a th:href="@{'/products/delete/' + ${product.id}}" th:text="Удалить"/>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <span th:text="${'Всего товаров ' + products.size()}"/>
+
+    <form th:action="@{/products/filter}" method="get">
+        <fieldset>
+            <input type="text" name="substring" th:value="${substring}"/>
+            <!--            <input type="submit" value="Отфильтровать" />-->
+        </fieldset>
+        <div style="margin-top: 10px" class="form-group">
+            <span th:text="${'Отфильтровать по цене:  '}"></span>
+
+            <span th:text="${'min'}"/>
+            <input type="number" name="min" th:value="${min}"/>
+            <span th:text="${'max'}"/>
+            <input type="number" name="max" th:value="${max}"/>
+            <div style="margin-top: 10px" class="form-group">
+                <div class="col-sm-6 controls">
+                    <button type="submit" class="btn btn-primary">применить</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+</div>
+</body>
+</html>

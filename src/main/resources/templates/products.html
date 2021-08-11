@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>Каталог товаров</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+<div class="container">
+    <div th:fragment="content">
+        <form name="f" th:action="@{/login}" method="post">
+            <fieldset>
+                <legend>Login form</legend>
+                <div th:if="${param.error}" class="alert alert-error">
+                    Invalid username and password.
+                </div>
+                <div th:if="${param.logout}" class="alert alert-success">
+                    You have been logged out.
+                </div>
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username"/>
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password"/>
+                <div class="form-actions">
+                    <button type="submit" class="btn">Log in</button>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+    <br>
+    <form th:action="@{/logout}" method="post">
+        <input type="submit" value="Log out" />
+    </form>
+
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Название товара</th>
+            <th>Цена</th>
+            <th>Действия</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="product : ${products}">
+            <td th:text="${product.id}"/>
+            <td th:text="${product.title}"/>
+            <td th:text="${product.price}"/>
+            <td>
+                <a th:href="@{'/products/show/' + ${product.id}}" th:text="Просмотреть "/>
+                <a th:href="@{'/products/delete/' + ${product.id}}" th:text="@{\ Удалить}"/>
+                <a th:href="@{'/products/edit/' + ${product.id}}" th:text="@{\ Редкатировать}"/>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <br>
+    <a th:href="@{'/products/page/1'}" th:text="1"/>
+    <a th:href="@{'/products/page/2'}" th:text="2"/>
+    <br>
+    <br>
+    <span th:text="@{'Хиты: '}"/>
+    <br>
+    <tr th:each="product : ${hits}">
+        <td th:text="${product.title}"/>
+        <td th:text="${product.price}"/>
+        <td>
+            <a th:href="@{'/products/show/' + ${product.id}}" th:text="Просмотреть "/>
+        </td>
+    </tr>
+    <br>
+    <br>
+    <span th:text="@{'Текущий пользователь: ' + ${principal}}"/>
+    </br>
+    <br>
+    <span th:text="${'Всего товаров ' + products.size()}"/>
+    </br>
+    <br>
+    <a th:href="@{'/products/add'}" th:text="Добавить_продукт"/>
+    <div style="margin-top: 10px">
+
+        <form th:action="@{'/products/page/'+${page}}" method="get">
+            <span th:text="${'Фильтр по названию продукта:  '}"></span>
+            <input type="text" name="substring" th:value="${substring}"/>
+            <br>
+            <span th:text="${'Отфильтровать по цене:  '}"></span>
+            <!--        <form th:action="@{/products/filterPrice}" method="get">-->
+            <br>
+            <span th:text="${'min'}"/>
+            <input type="number" name="min" th:value="${min}"/>
+            <br>
+            <span th:text="${'max'}"/>
+            <input type="number" name="max" th:value="${max}"/>
+            <div>
+                <div>
+                    <button type="submit">применить</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+
+    <!--    <form th:action="@{/products/filter}"-->
+    <!--          th:object="${product}" method="post" class="form-horizontal">-->
+    <!--        <div style="margin-bottom: 25px" class="input-group">-->
+    <!--            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>-->
+    <!--        </div>-->
+    <!--        <span th:text="${'Фильтр по названию продукта:  '}"/>-->
+    <!--        <div style="margin-bottom: 25px" class="input-group">-->
+    <!--            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>-->
+    <!--            <input th:field="*{title}" placeholder="title (*)" class="form-control"/>-->
+    <!--        </div>-->
+    <!--        <div style="margin-top: 10px" class="form-group">-->
+    <!--            <div class="col-sm-6 controls">-->
+    <!--                <button type="submit" class="btn btn-primary">Отфильтровать</button>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--    </form>-->
+    <br>
+
+</div>
+</body>
+</html>
