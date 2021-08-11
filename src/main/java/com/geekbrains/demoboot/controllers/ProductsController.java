@@ -22,12 +22,6 @@ import java.util.Comparator;
 @RequestMapping("/products")
 public class ProductsController {
     private ProductsService productsService;
-//    private ProductSpecifications productSpecifications;
-//
-//    @Autowired
-//    public void setProductSpecifications(ProductSpecifications productSpecifications) {
-//        this.productSpecifications = productSpecifications;
-//    }
 
     @Autowired
     public void setProductsService(ProductsService productsService) {
@@ -50,13 +44,6 @@ public class ProductsController {
         return "products";
     }
 
-//    @GetMapping("/page/{page}")
-//    public String showProductsListonPahe(Model model, @PathVariable(value = "page") int page) {
-//        Product product = new Product();
-//        model.addAttribute("products", productsService.getAllProductsOnPages(page - 1));
-//        model.addAttribute("product", product);
-//        return "products";
-//    }
 
     @GetMapping("/page/{page}")
     public String showProductsWithFilters(Model model, Principal principal,
@@ -126,45 +113,7 @@ public class ProductsController {
         return "product-page";
     }
 
-    //    @GetMapping("/filter")
-//    public String filterBySubstring(Model model, String substring, String min, String max) {
-//        try {
-//            double minD = Double.parseDouble(min);
-//            try {
-//                double maxD = Double.parseDouble(max);
-//                model.addAttribute("products", productsService.filterBySubstring(substring, minD, maxD));
-//                model.addAttribute("substring", substring);
-//                model.addAttribute("min", minD);
-//                model.addAttribute("max", maxD);
-//                return "products_with_filter";
-//            } catch (NumberFormatException e) {
-//                model.addAttribute("products", productsService.filterBySubstring(substring, minD, 999999.99));
-//                model.addAttribute("substring", substring);
-//                model.addAttribute("min",minD);
-//                return "products_with_filter";
-//            }
-//        } catch (NumberFormatException e) {
-//            try {
-//                double maxD = Double.parseDouble(max);
-//                model.addAttribute("products", productsService.filterBySubstring(substring, 0.0, maxD));
-//                model.addAttribute("substring", substring);
-//                model.addAttribute("max", maxD);
-//                return "products_with_filter";
-//            } catch (NumberFormatException e1) {
-//                model.addAttribute("products", productsService.filterBySubstring(substring, 0.0, 999999.99));
-//                model.addAttribute("substring", substring);
-//                return "products_with_filter";
-//            }
-//        }
-//    }
-//
-//        @GetMapping("/filterPrice")
-//        public String filterByPrice (Model model,double min, double max){
-//            model.addAttribute("products", productsService.filterByPrice(min, max));
-//            model.addAttribute("min", min);
-//            model.addAttribute("max", max);
-//            return "products_with_filter";
-//        }
+
     @GetMapping("/edit/{id}")
     public String editProduct(Model model, @PathVariable(value = "id") Long id) {
         Product product = productsService.getById(id);
